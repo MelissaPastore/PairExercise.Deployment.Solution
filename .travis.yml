@@ -15,13 +15,14 @@ install:
   - npm ci # faster, goes only from package-lock
 before_script:
   - psql -c 'create database "deployment-exercise-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
-
-# before_deploy:
-#   - npm run build-client # make the bundle
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE
+before_deploy: # omit node_modules, since we set skip_cleanup below
+  - rm -rf node_modules
+deploy: # see README for details on these keys
+  # prevents travis from deleting the build
+  skip_cleanup: true
+  provider: heroku
+  # app should be your heroku app name; see README
+  app: voterinfobot
+  # the secure key indicates an encrypted value; see README
+  api_key:
+    secure: yoIPyHvesexMOD7Fck0xf/p7ds6foHaSisVF8XmRR0g4GdSLUTVfJR8lJ/5/P5sLzoSsMLy3YFTPkja0JAleqdefPErJwEx6I+uDqhAK3zl3dLmtlc/A2gJZP5G2m/rYXE5DYHYtlp3jYzmGHkxW4XdEbNqadNHd89klU/iRiLOx5shbwqzRIB08M+5mO3yFlhoBNdBRP1o1+v/mEfip1BObPojbHyVxQZXiDIPIO26uIZkuLbUwXrA0C0UDRm8EwNQFJbWTFAB+zghCKT9yR74deMdzeOpH7ECn7RJ9ArU55Py9SgB9//4wWJNNGYKMdkDjkdLzihZeXqhyIys8XuSZ7jNFCY4gGLzrlC904zaIsQrJSWpc2gV1+gEyvWOB/0eHvYvGYpksihM8zuD08wGkCy3zG7SbDSt/FDZq2FNt6AQSMrT2kh5CoSWl8MgxuI7OiFdm0BprM7dfdCUXIlh53bfNIPiqeShwxG4qqekJBYnRY5b0vcyluN33mva7TzEGJzqIQxHE6qUbTA1CxfSqmMZOG2bxg03p25qAQPuMf2bkjGxVt7vxXbJz6wkUMeRtkaez3qjiTza8abAod9E7qRdJ0rU7TEPHoIbnCn8RFRNrmzpoZhLAWktWYv0ybeO4ZraTiL3VN/IU685Cbpfyc+QONTigsgPBfkZR8HI=
